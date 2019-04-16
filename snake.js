@@ -8,11 +8,11 @@ const canvas = document.getElementById("gameCanvas");
 const context = canvas.getContext("2d");
 
 let snake = [
-  { x: 330, y: 250 },
-  { x: 310, y: 250 },
-  { x: 290, y: 250 },
-  { x: 270, y: 250 },
-  { x: 250, y: 250 }
+  { x: 340, y: 260 },
+  { x: 320, y: 260 },
+  { x: 300, y: 260 },
+  { x: 280, y: 260 },
+  { x: 260, y: 260 }
 ];
 
 let dx = 20;
@@ -29,7 +29,9 @@ function advanceSnake() {
   const head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
   snake.unshift(head);
-  snake.pop();
+
+  const ateFood = snake[0].x === foodX && snake[0].y === foodY;
+  ateFood ? createFood() : snake.pop();
 }
 
 function refreshCanvas() {
@@ -85,17 +87,40 @@ function changeDirection(event) {
 }
 
 main();
+createFood();
 
 function main() {
   setTimeout(function onTick() {
     refreshCanvas();
+    drawFood();
     advanceSnake();
     drawSnake();
 
     main();
-  }, 250);
+  }, 500);
 }
 
-console.log("kuku");
-
 document.addEventListener("keydown", changeDirection);
+
+function randomRect(min, max) {
+  return Math.round((Math.random() * (max - min) + min) / 20) * 20;
+}
+
+function createFood() {
+  foodX = randomRect(0, canvas.width - 20);
+  foodY = randomRect(0, canvas.height - 20);
+
+  snake.forEach(function isFoodOnSnake(part) {
+    const foodOnSnake = part.x == foodX && part.y == foodY;
+    if (foodOnSnake) {
+      createFood();
+    }
+  });
+}
+
+function drawFood() {
+  context.fillStyle = "red";
+  context.strokeStyle = "black";
+  context.fillRect(foodX, foodY, 20, 20);
+  context.strokeRect(foodX, foodY, 20, 20);
+}
