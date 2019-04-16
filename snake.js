@@ -8,6 +8,16 @@ const canvas = document.getElementById("gameCanvas");
 const context = canvas.getContext("2d");
 const scoreElem = document.getElementById("score");
 
+const directions = {
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40
+};
+
+let previousDirection = directions.RIGHT;
+let nextDirection = directions.RIGHT;
+
 let snake = [
   { x: 340, y: 260 },
   { x: 320, y: 260 },
@@ -31,7 +41,7 @@ drawSnake();
 createFood();
 
 function advanceSnake() {
-  const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+  const head = generateNextHead();
 
   if (head.x > canvas.width - 20) {
     head.x = 0;
@@ -58,6 +68,23 @@ function advanceSnake() {
   }
 }
 
+function generateNextHead() {
+  switch (nextDirection) {
+    case directions.LEFT:
+      previousDirection = directions.LEFT;
+      return { x: snake[0].x - 20, y: snake[0].y };
+    case directions.UP:
+      previousDirection = directions.UP;
+      return { x: snake[0].x, y: snake[0].y - 20 };
+    case directions.RIGHT:
+      previousDirection = directions.RIGHT;
+      return { x: snake[0].x + 20, y: snake[0].y };
+    case directions.DOWN:
+      previousDirection = directions.DOWN;
+      return { x: snake[0].x, y: snake[0].y + 20 };
+  }
+}
+
 function refreshCanvas() {
   context.fillStyle = "#669900";
   context.strokeStyle = "#223300";
@@ -78,35 +105,22 @@ function drawSnakePart(snakePart) {
 }
 
 function changeDirection(event) {
-  const left_key = 37;
-  const up_key = 38;
-  const right_key = 39;
-  const down_key = 40;
-
   const keyPressed = event.keyCode;
-  const goLeft = dx === -20;
-  const goUp = dy === -20;
-  const goRight = dx === 20;
-  const goDown = dy === 20;
 
-  if (keyPressed === left_key && !goRight) {
-    dx = -20;
-    dy = 0;
+  if (keyPressed === directions.LEFT && previousDirection != directions.RIGHT) {
+    nextDirection = directions.LEFT;
   }
 
-  if (keyPressed === up_key && !goDown) {
-    dx = 0;
-    dy = -20;
+  if (keyPressed === directions.UP && previousDirection != directions.DOWN) {
+    nextDirection = directions.UP;
   }
 
-  if (keyPressed === right_key && !goLeft) {
-    dx = 20;
-    dy = 0;
+  if (keyPressed === directions.RIGHT && previousDirection != directions.LEFT) {
+    nextDirection = directions.RIGHT;
   }
 
-  if (keyPressed === down_key && !goUp) {
-    dx = 0;
-    dy = 20;
+  if (keyPressed === directions.DOWN && previousDirection != directions.UP) {
+    nextDirection = directions.DOWN;
   }
 }
 
