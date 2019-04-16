@@ -6,6 +6,7 @@ const SNAKE_BORDER_COLOR = "black";
 
 const canvas = document.getElementById("gameCanvas");
 const context = canvas.getContext("2d");
+const scoreElem = document.getElementById("score");
 
 let snake = [
   { x: 340, y: 260 },
@@ -32,28 +33,28 @@ createFood();
 function advanceSnake() {
   const head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
+  if (head.x > canvas.width - 20) {
+    head.x = 0;
+  }
+  if (head.x < 0) {
+    head.x = canvas.width - 20;
+  }
+  if (head.y > canvas.height - 20) {
+    head.y = 0;
+  }
+  if (head.y < 0) {
+    head.y = canvas.height - 20;
+  }
+
   snake.unshift(head);
 
   const ateFood = snake[0].x === foodX && snake[0].y === foodY;
   if (ateFood) {
     score += 20;
-    document.getElementById("score").innerHTML = score;
+    scoreElem.innerText = score;
     createFood();
   } else {
     snake.pop();
-  }
-
-  if (head.x > canvas.width) {
-    head.x = 0;
-  }
-  if (head.x < 0) {
-    head.x = canvas.width;
-  }
-  if (head.y > canvas.height) {
-    head.y = 0;
-  }
-  if (head.y < 0) {
-    head.y = canvas.height;
   }
 }
 
