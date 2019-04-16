@@ -118,7 +118,7 @@ function main() {
     if (gameEnd()) return;
 
     main();
-  }, 500);
+  }, 250);
 }
 
 document.addEventListener("keydown", changeDirection);
