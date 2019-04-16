@@ -15,6 +15,8 @@ let snake = [
   { x: 260, y: 260 }
 ];
 
+let score = 0;
+
 let dx = 20;
 let dy = 0;
 
@@ -23,7 +25,9 @@ context.strokeStyle = CANVAS_BORDER_COLOR;
 context.fillRect(0, 0, canvas.width, canvas.height);
 context.strokeRect(0, 0, canvas.width, canvas.height);
 
+main();
 drawSnake();
+createFood();
 
 function advanceSnake() {
   const head = { x: snake[0].x + dx, y: snake[0].y + dy };
@@ -31,7 +35,26 @@ function advanceSnake() {
   snake.unshift(head);
 
   const ateFood = snake[0].x === foodX && snake[0].y === foodY;
-  ateFood ? createFood() : snake.pop();
+  if (ateFood) {
+    score += 20;
+    document.getElementById("score").innerHTML = score;
+    createFood();
+  } else {
+    snake.pop();
+  }
+
+  if (head.x > canvas.width) {
+    head.x = 0;
+  }
+  if (head.x < 0) {
+    head.x = canvas.width;
+  }
+  if (head.y > canvas.height) {
+    head.y = 0;
+  }
+  if (head.y < 0) {
+    head.y = canvas.height;
+  }
 }
 
 function refreshCanvas() {
@@ -86,15 +109,13 @@ function changeDirection(event) {
   }
 }
 
-main();
-createFood();
-
 function main() {
   setTimeout(function onTick() {
     refreshCanvas();
     drawFood();
     advanceSnake();
     drawSnake();
+    if (gameEnd()) return;
 
     main();
   }, 500);
@@ -123,4 +144,11 @@ function drawFood() {
   context.strokeStyle = "black";
   context.fillRect(foodX, foodY, 20, 20);
   context.strokeRect(foodX, foodY, 20, 20);
+}
+
+function gameEnd() {
+  for (let i = 4; i < snake.length; i++) {
+    const didHitSelf = snake[i].x === snake[0].x && snake[i].y === snake[0].y;
+    if (didHitSelf) return true;
+  }
 }
