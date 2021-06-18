@@ -1,20 +1,21 @@
-html{
-    background-color: rgb(29, 99, 15);
+html {
+  box-sizing: border-box;
+  background-color: rgb(184, 184, 168);
 }
 
 #gameCanvas {
-    position: absolute;
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin:auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
-
 #score {
-    text-align: center;
-    font-size: 50px;
-    color: yellow;
-    font-weight: bold;
+  margin-top: 5rem;
+  text-align: center;
+  font-size: 5rem;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
 }

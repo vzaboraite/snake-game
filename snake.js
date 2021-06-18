@@ -1,8 +1,8 @@
-const CANVAS_BACKGROUND_COLOR = "#669900";
-const CANVAS_BORDER_COLOR = "#223300";
+const CANVAS_BACKGROUND_COLOR = "#2A385B";
+const CANVAS_BORDER_COLOR = "#9E9CC2";
 
-const SNAKE_COLOR = "yellow";
-const SNAKE_BORDER_COLOR = "black";
+const SNAKE_COLOR = "#FAF2EA";
+const SNAKE_BORDER_COLOR = "#2A385B";
 
 const canvas = document.getElementById("gameCanvas");
 const context = canvas.getContext("2d");
@@ -12,7 +12,7 @@ const directions = {
   LEFT: 37,
   UP: 38,
   RIGHT: 39,
-  DOWN: 40
+  DOWN: 40,
 };
 
 let previousDirection = directions.RIGHT;
@@ -23,7 +23,7 @@ let snake = [
   { x: 320, y: 260 },
   { x: 300, y: 260 },
   { x: 280, y: 260 },
-  { x: 260, y: 260 }
+  { x: 260, y: 260 },
 ];
 
 let score = 0;
@@ -86,8 +86,8 @@ function generateNextHead() {
 }
 
 function refreshCanvas() {
-  context.fillStyle = "#669900";
-  context.strokeStyle = "#223300";
+  context.fillStyle = "#2A385B";
+  context.strokeStyle = "#9E9CC2";
 
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.strokeRect(0, 0, canvas.width, canvas.height);
@@ -155,8 +155,8 @@ function createFood() {
 }
 
 function drawFood() {
-  context.fillStyle = "red";
-  context.strokeStyle = "black";
+  context.fillStyle = "#FDF0F2";
+  context.strokeStyle = "FDF0F2";
   context.fillRect(foodX, foodY, 20, 20);
   context.strokeRect(foodX, foodY, 20, 20);
 }
